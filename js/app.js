@@ -72,9 +72,63 @@ function nav_items() {
 
 
 // Add class 'active' to section when near top of viewport
+function active_section_check(e) {
+
+    let currentPossition = window.pageYOffset;
+
+    //loop through sections
+    sections.forEach(function (info, section) {
+
+        //add active class to the section if current scroll Y position belong to this section and section don't have active class already
+        if (currentPossition >= info.start && currentPossition < info.end && !info.elem.classList.contains('active')) {
+            
+            document.querySelector('main section.active').classList.remove('active');
+            info.elem.classList.add('active');
+            
+            //update active state of nav item
+            document.querySelector(`.menu__link.active`).classList.remove('active');
+            document.querySelector(`.menu__link[href="${section}"]`).classList.add('active');
+        }
+
+    });
+    
+    //toggle scroll top button visibility
+    if( currentPossition > sections.get("#section3").start ) {
+        if( !scroll_top_btn.classList.contains('active') ) {
+            scroll_top_btn.classList.add('active');
+        }        
+    } else {
+        scroll_top_btn.classList.remove('active');
+    }
+    
+    //hide page header while not scrolling   
+    show_header();
+    if( currentPossition > 300 ) {        
+        hide_header = setTimeout(function(){
+            header.classList.add('hide');
+        }, 2000);        
+    }
+
+}
 
 
 // Scroll to anchor ID using scrollTO event
+function handle_nav_anchor(e) {
+
+    e.preventDefault();
+
+    if (e.target.nodeName.toLowerCase() === 'a') {
+
+        let target = sections.get(e.target.hash);
+
+        window.scroll({
+            top: target.start,
+            left: 0,
+            behavior: 'smooth'
+        });
+
+    }
+}
 
 
 /**
@@ -87,7 +141,9 @@ function nav_items() {
 document.addEventListener('DOMContentLoaded', nav_items, { once: true });
 
 // Scroll to section on link click
+document.querySelector('#navbar__list').addEventListener('click', handle_nav_anchor);
 
 // Set sections as active
+window.addEventListener('scroll', active_section_check);
 
 
