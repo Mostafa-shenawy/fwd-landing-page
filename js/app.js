@@ -131,6 +131,19 @@ function handle_nav_anchor(e) {
 }
 
 
+//handle scroll top button action
+function handle_scroll_top(e) {
+
+    e.preventDefault();
+
+    window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+}
+
+
 /**
  * End Main Functions
  * Begin Events
@@ -146,4 +159,5 @@ document.querySelector('#navbar__list').addEventListener('click', handle_nav_anc
 // Set sections as active
 window.addEventListener('scroll', active_section_check);
 
-
+//scroll top button action
+document.querySelector('#scroll-top-btn').addEventListener('click', handle_scroll_top);
