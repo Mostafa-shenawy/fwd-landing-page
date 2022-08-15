@@ -24,7 +24,8 @@
 */
 let sections = new Map(),
     header = document.querySelector('header.page__header'),
-    hide_header;
+    hide_header,    
+    scroll_top_btn = document.querySelector('#scroll-top-btn');
 
 
 /**
