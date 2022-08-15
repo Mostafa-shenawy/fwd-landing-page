@@ -3,7 +3,7 @@
 ## Table of Contents
 
 * [Features](#features)
-* [Used tools](#used tools)
+* [Used tools](#used-tools)
 
 ## Features
 
