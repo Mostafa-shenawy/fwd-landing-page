@@ -25,6 +25,8 @@
 let sections = new Map(),
     header = document.querySelector('header.page__header'),
     hide_header,    
+    nav_menu = document.querySelector('.navbar__menu'),
+    mobile_menu_btn = document.querySelector('.mobile-menu-btn'),
     scroll_top_btn = document.querySelector('#scroll-top-btn');
 
 
@@ -69,6 +71,13 @@ function nav_items() {
 
     //append nav items to nav list wrapper
     document.querySelector('#navbar__list').appendChild(nav_items);
+    
+    //save navlist height if on mobile device
+    if( window.innerWidth <= 768 ) {
+        setTimeout(function(){
+            document.querySelector('.navbar__menu').style.setProperty('--list-height', `${document.querySelector('#navbar__list').offsetHeight}px`);
+        }, 500);
+    }
 }
 
 
@@ -145,6 +154,22 @@ function handle_scroll_top(e) {
 }
 
 
+//Toggle mobile hamburger menu
+function toggle_mobile_menu(e){
+    
+    e.preventDefault();
+    
+    if( mobile_menu_btn.classList.contains('active') ) {         
+        mobile_menu_btn.classList.remove('active');        
+        nav_menu.classList.remove('active');        
+    } else {        
+        mobile_menu_btn.classList.add('active');        
+        nav_menu.classList.add('active');        
+    }
+    
+}
+
+
 /**
  * End Main Functions
  * Begin Events
@@ -162,3 +187,6 @@ window.addEventListener('scroll', active_section_check);
 
 //scroll top button action
 document.querySelector('#scroll-top-btn').addEventListener('click', handle_scroll_top);
+
+//mobile menu button click event
+document.querySelector('.mobile-menu-btn').addEventListener('click', toggle_mobile_menu);
