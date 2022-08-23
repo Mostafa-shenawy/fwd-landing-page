@@ -82,25 +82,41 @@ function nav_items() {
 
 
 // Add class 'active' to section when near top of viewport
-function active_section_check(e) {
+let IntersectionObserverOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: .2
+}
 
-    let currentPossition = window.pageYOffset;
-
-    //loop through sections
-    sections.forEach(function (info, section) {
-
-        //add active class to the section if current scroll Y position belong to this section and section don't have active class already
-        if (currentPossition >= info.start && currentPossition < info.end && !info.elem.classList.contains('active')) {
-            
-            document.querySelector('main section.active').classList.remove('active');
-            info.elem.classList.add('active');
+const IntersectionObserverCallback = (entries, observer) => {
+    
+    entries.forEach((entry) => {
+        if( entry.isIntersecting ) {
+            entry.target.classList.add('active');
             
             //update active state of nav item
-            document.querySelector(`.menu__link.active`).classList.remove('active');
-            document.querySelector(`.menu__link[href="${section}"]`).classList.add('active');
+            document.querySelector(`.menu__link.active`).classList.remove('active');    
+            document.querySelector(`.menu__link[href="#${entry.target.id}"]`).classList.add('active');
+            
+            if( entry.target.id === 'section3' ) {
+                
+            }
+            
+        } else {
+            entry.target.classList.remove('active');
         }
+    })
+}
 
-    });
+let observer = new IntersectionObserver(IntersectionObserverCallback, IntersectionObserverOptions);
+
+function active_section_check(e) {
+    
+    sections.forEach((section) => {
+        observer.observe(section.elem);
+    })
+
+    let currentPossition = window.pageYOffset;
     
     //toggle scroll top button visibility
     if( currentPossition > sections.get("#section3").start ) {
